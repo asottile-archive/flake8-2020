@@ -54,7 +54,10 @@ if six.PY3:  # YTT202
     print('python3!')
 
 # correct way to do this
-is_py3 = sys.version_info > (3,)
+is_py3 = sys.version_info >= (3,)
+
+if not six.PY2:
+    print('python3!')
 ```
 
 ```python
