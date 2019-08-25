@@ -19,13 +19,13 @@ you might also find an early build of [python3.10] useful
 
 ## flake8 codes
 
-| Code   | Description                                     |
-|--------|-------------------------------------------------|
-| YTT101 | `sys.version[:...]` referenced (python3.10)     |
-| YTT102 | `sys.version[2]` referenced (python3.10)        |
-| YTT201 | `sys.version_info[0] == 3` referenced (python4) |
-| YTT202 | `six.PY3` referenced (python4)                  |
-| YTT301 | `sys.version[0]` referenced (python10)          |
+| Code   | Description                                                         |
+|--------|---------------------------------------------------------------------|
+| YTT101 | `sys.version[:...]` referenced (python3.10), use `sys.version_info` |
+| YTT102 | `sys.version[2]` referenced (python3.10), use `sys.version_info`    |
+| YTT201 | `sys.version_info[0] == 3` referenced (python4), use `>=`           |
+| YTT202 | `six.PY3` referenced (python4), use `not six.PY2`                   |
+| YTT301 | `sys.version[0]` referenced (python10), use `sys.version_info`      |
 
 ## rationale
 
