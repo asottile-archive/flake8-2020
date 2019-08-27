@@ -1,5 +1,4 @@
 import ast
-from typing import Any
 from typing import Dict
 from typing import Generator
 from typing import List
@@ -7,6 +6,8 @@ from typing import Tuple
 from typing import Type
 
 import importlib_metadata
+
+Flake8Error = Tuple[int, int, str, Type['Plugin']]
 
 YTT101 = 'YTT101: `sys.version[:...]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT102 = 'YTT102: `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
@@ -107,7 +108,7 @@ class Plugin:
     def __init__(self, tree: ast.AST):
         self._tree = tree
 
-    def run(self) -> Generator[Tuple[int, int, str, Type[Any]], None, None]:
+    def run(self) -> Generator[Flake8Error, None, None]:
         visitor = Visitor()
         visitor.visit(self._tree)
 
