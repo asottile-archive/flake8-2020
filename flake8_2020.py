@@ -10,6 +10,7 @@ import importlib_metadata
 
 YTT101 = 'YTT101: `sys.version[:...]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT102 = 'YTT102: `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
+YTT103 = 'YTT103: `sys.version` compared to string (python3.10), use `sys.version_info`'  # noqa: E501
 YTT201 = 'YTT201: `sys.version_info[0] == 3` referenced (python4), use `>=`'
 YTT202 = 'YTT202: `six.PY3` referenced (python4), use `not six.PY2`'
 YTT301 = 'YTT301: `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
@@ -82,6 +83,15 @@ class Visitor(ast.NodeVisitor):
         ):
             self.errors.append((
                 node.left.lineno, node.left.col_offset, YTT201,
+            ))
+        elif (
+                self._is_sys('version', node.left) and
+                len(node.ops) == 1 and
+                isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
+                isinstance(node.comparators[0], ast.Str)
+        ):
+            self.errors.append((
+                node.left.lineno, node.left.col_offset, YTT103,
             ))
         self.generic_visit(node)
 
