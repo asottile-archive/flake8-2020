@@ -23,6 +23,7 @@ you might also find an early build of [python3.10] useful
 |--------|-------------------------------------------------|
 | YTT101 | `sys.version[:...]` referenced (python3.10)     |
 | YTT102 | `sys.version[2]` referenced (python3.10)        |
+| YTT103 | `sys.version` compared to string (python3.10)   |
 | YTT201 | `sys.version_info[0] == 3` referenced (python4) |
 | YTT202 | `six.PY3` referenced (python4)                  |
 | YTT301 | `sys.version[0]` referenced (python10)          |
@@ -39,10 +40,14 @@ it breaks less code, here's a few patterns that will cause issues:
 python_version = sys.version[:3]  # YTT101
 # in python3.10 this will report as '1' (should be '10')
 py_minor = sys.version[2]
+# in python3.10 this will be False (which goes against developer intention)
+sys.version >= '3.5'  # YTT103
+
 
 # correct way to do this
 python_version = '{}.{}'.format(*sys.version_info)
 py_minor = str(sys.version_info[1])
+sys.version_info >= (3, 5)
 ```
 
 ```python
