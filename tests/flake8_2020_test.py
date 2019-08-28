@@ -106,7 +106,7 @@ def test_py4_usage_of_six_py3(s):
     's',
     (
         'import sys\npy_major = sys.version[0]',
-        'from sys import version\npy_major = sys.version[0]',
+        'from sys import version\npy_major = version[0]',
     ),
 )
 def test_py10_indexing_of_sys_version_string(s):
