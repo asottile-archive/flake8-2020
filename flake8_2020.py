@@ -96,8 +96,8 @@ class Visitor(ast.NodeVisitor):
                 node.left.lineno, node.left.col_offset, YTT103,
             ))
         elif (
-                self._is_sys('version_info', node.left.value) and
                 isinstance(node.left, ast.Subscript) and
+                self._is_sys('version_info', node.left.value) and
                 isinstance(node.left.slice, ast.Index) and
                 isinstance(node.left.slice.value, ast.Num) and
                 node.left.slice.value.n == 1 and
@@ -109,8 +109,8 @@ class Visitor(ast.NodeVisitor):
                 node.lineno, node.col_offset, YTT203,
             ))
         elif (
-                self._is_sys('version_info', node.left.value) and
                 isinstance(node.left, ast.Attribute) and
+                self._is_sys('version_info', node.left.value) and
                 node.left.attr == 'minor' and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
