@@ -141,8 +141,8 @@ def test_py10_indexing_of_sys_version_string(s):
 )
 def test_version_info_index_one(s):
     assert results(s) == {
-        '2:0: YTT203: `sys.version_info[1]` compared to integer, compare '
-        '`sys.version_info` to tuple',
+        '2:0: YTT203: `sys.version_info[1]` compared to integer (python4), '
+        'compare `sys.version_info` to tuple',
     }
 
 
@@ -155,6 +155,6 @@ def test_version_info_index_one(s):
 )
 def test_version_info_minor(s):
     assert results(s) == {
-        '2:0: YTT204: `sys.version_info.minor` compared to integer, compare '
-        '`sys.version_info` to tuple',
+        '2:0: YTT204: `sys.version_info.minor` compared to integer (python4), '
+        'compare `sys.version_info` to tuple',
     }
