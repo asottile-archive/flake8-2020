@@ -105,5 +105,5 @@ Sample `.pre-commit-config.yaml`:
     rev: 3.7.8
     hooks:
     -   id: flake8
-        additional_dependencies: [flake8-2020==1.1.0]
+        additional_dependencies: [flake8-2020==1.2.0]
 ```
