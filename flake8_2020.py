@@ -8,15 +8,15 @@ from typing import Type
 
 import importlib_metadata
 
-YTT101 = 'YTT101: `sys.version[:...]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
-YTT102 = 'YTT102: `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
-YTT103 = 'YTT103: `sys.version` compared to string (python3.10), use `sys.version_info`'  # noqa: E501
-YTT201 = 'YTT201: `sys.version_info[0] == 3` referenced (python4), use `>=`'
-YTT202 = 'YTT202: `six.PY3` referenced (python4), use `not six.PY2`'
-YTT203 = 'YTT203: `sys.version_info[1]` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
-YTT204 = 'YTT204: `sys.version_info.minor` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
-YTT301 = 'YTT301: `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
-YTT302 = 'YTT302: `sys.version` compared to string (python10), use `sys.version_info`'  # noqa: E501
+YTT101 = 'YTT101 `sys.version[:...]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
+YTT102 = 'YTT102 `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
+YTT103 = 'YTT103 `sys.version` compared to string (python3.10), use `sys.version_info`'  # noqa: E501
+YTT201 = 'YTT201 `sys.version_info[0] == 3` referenced (python4), use `>=`'
+YTT202 = 'YTT202 `six.PY3` referenced (python4), use `not six.PY2`'
+YTT203 = 'YTT203 `sys.version_info[1]` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
+YTT204 = 'YTT204 `sys.version_info.minor` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
+YTT301 = 'YTT301 `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
+YTT302 = 'YTT302 `sys.version` compared to string (python10), use `sys.version_info`'  # noqa: E501
 
 
 class Visitor(ast.NodeVisitor):

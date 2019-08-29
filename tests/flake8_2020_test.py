@@ -33,7 +33,7 @@ def test_ok(s):
 )
 def test_py310_slicing_of_sys_version_string(s):
     assert results(s) == {
-        '2:6: YTT101: `sys.version[:...]` referenced (python3.10), use '
+        '2:6: YTT101 `sys.version[:...]` referenced (python3.10), use '
         '`sys.version_info`',
     }
 
@@ -47,7 +47,7 @@ def test_py310_slicing_of_sys_version_string(s):
 )
 def test_py310_indexing_of_sys_version_string(s):
     assert results(s) == {
-        '2:11: YTT102: `sys.version[2]` referenced (python3.10), use '
+        '2:11: YTT102 `sys.version[2]` referenced (python3.10), use '
         '`sys.version_info`',
     }
 
@@ -64,7 +64,7 @@ def test_py310_indexing_of_sys_version_string(s):
 )
 def test_py310_string_comparison(s):
     assert results(s) == {
-        '2:0: YTT103: `sys.version` compared to string (python3.10), use '
+        '2:0: YTT103 `sys.version` compared to string (python3.10), use '
         '`sys.version_info`',
     }
 
@@ -81,7 +81,7 @@ def test_py310_string_comparison(s):
 )
 def test_py310_string_comparison_of_1_char(s):
     assert results(s) == {
-        '2:0: YTT302: `sys.version` compared to string (python10), use '
+        '2:0: YTT302 `sys.version` compared to string (python10), use '
         '`sys.version_info`',
     }
 
@@ -95,7 +95,7 @@ def test_py310_string_comparison_of_1_char(s):
 )
 def test_py4_comparison_to_version_3(s):
     assert results(s) == {
-        '2:6: YTT201: `sys.version_info[0] == 3` referenced (python4), use '
+        '2:6: YTT201 `sys.version_info[0] == 3` referenced (python4), use '
         '`>=`',
     }
 
@@ -114,7 +114,7 @@ def test_py4_comparison_to_version_3(s):
 )
 def test_py4_usage_of_six_py3(s):
     assert results(s) == {
-        '2:3: YTT202: `six.PY3` referenced (python4), use `not six.PY2`',
+        '2:3: YTT202 `six.PY3` referenced (python4), use `not six.PY2`',
     }
 
 
@@ -127,7 +127,7 @@ def test_py4_usage_of_six_py3(s):
 )
 def test_py10_indexing_of_sys_version_string(s):
     assert results(s) == {
-        '2:11: YTT301: `sys.version[0]` referenced (python10), use '
+        '2:11: YTT301 `sys.version[0]` referenced (python10), use '
         '`sys.version_info`',
     }
 
@@ -141,7 +141,7 @@ def test_py10_indexing_of_sys_version_string(s):
 )
 def test_version_info_index_one(s):
     assert results(s) == {
-        '2:0: YTT203: `sys.version_info[1]` compared to integer (python4), '
+        '2:0: YTT203 `sys.version_info[1]` compared to integer (python4), '
         'compare `sys.version_info` to tuple',
     }
 
@@ -155,6 +155,6 @@ def test_version_info_index_one(s):
 )
 def test_version_info_minor(s):
     assert results(s) == {
-        '2:0: YTT204: `sys.version_info.minor` compared to integer (python4), '
+        '2:0: YTT204 `sys.version_info.minor` compared to integer (python4), '
         'compare `sys.version_info` to tuple',
     }
