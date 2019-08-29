@@ -72,6 +72,23 @@ def test_py310_string_comparison(s):
 @pytest.mark.parametrize(
     's',
     (
+        'from sys import version\nversion < "3"',
+        'import sys\nsys.version < "3"',
+        'import sys\nsys.version <= "3"',
+        'import sys\nsys.version > "3"',
+        'import sys\nsys.version >= "3"',
+    ),
+)
+def test_py310_string_comparison_of_1_char(s):
+    assert results(s) == {
+        '2:0: YTT302: `sys.version` compared to string (python10), use '
+        '`sys.version_info`',
+    }
+
+
+@pytest.mark.parametrize(
+    's',
+    (
         'import sys\nPY3 = sys.version_info[0] == 3',
         'from sys import version_info\nPY3 = version_info[0] == 3',
     ),
