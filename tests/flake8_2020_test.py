@@ -85,7 +85,6 @@ def test_py4_comparison_to_version_3(s):
 
 @pytest.mark.parametrize(
     's',
-
     (
         'import six\n'
         'if six.PY3:\n'
@@ -113,4 +112,32 @@ def test_py10_indexing_of_sys_version_string(s):
     assert results(s) == {
         '2:11: YTT301: `sys.version[0]` referenced (python10), use '
         '`sys.version_info`',
+    }
+
+
+@pytest.mark.parametrize(
+    's',
+    (
+        'import sys\nsys.version_info[1] >= 5',
+        'from sys import version_info\nversion_info[1] < 6',
+    ),
+)
+def test_version_info_index_one(s):
+    assert results(s) == {
+        '2:0: YTT203: `sys.version_info[1]` compared to integer, compare '
+        '`sys.version_info` to tuple',
+    }
+
+
+@pytest.mark.parametrize(
+    's',
+    (
+        'import sys\nsys.version_info.minor <= 7',
+        'from sys import version_info\nversion_info.minor > 8',
+    ),
+)
+def test_version_info_minor(s):
+    assert results(s) == {
+        '2:0: YTT204: `sys.version_info.minor` compared to integer, compare '
+        '`sys.version_info` to tuple',
     }

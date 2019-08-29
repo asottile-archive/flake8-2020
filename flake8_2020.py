@@ -13,6 +13,8 @@ YTT102 = 'YTT102: `sys.version[2]` referenced (python3.10), use `sys.version_inf
 YTT103 = 'YTT103: `sys.version` compared to string (python3.10), use `sys.version_info`'  # noqa: E501
 YTT201 = 'YTT201: `sys.version_info[0] == 3` referenced (python4), use `>=`'
 YTT202 = 'YTT202: `six.PY3` referenced (python4), use `not six.PY2`'
+YTT203 = 'YTT203: `sys.version_info[1]` compared to integer, compare `sys.version_info` to tuple'  # noqa: E501
+YTT204 = 'YTT204: `sys.version_info.minor` compared to integer, compare `sys.version_info` to tuple'  # noqa: E501
 YTT301 = 'YTT301: `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
 
 
@@ -92,6 +94,30 @@ class Visitor(ast.NodeVisitor):
         ):
             self.errors.append((
                 node.left.lineno, node.left.col_offset, YTT103,
+            ))
+        elif (
+                self._is_sys('version_info', node.left.value) and
+                isinstance(node.left, ast.Subscript) and
+                isinstance(node.left.slice, ast.Index) and
+                isinstance(node.left.slice.value, ast.Num) and
+                node.left.slice.value.n == 1 and
+                len(node.ops) == 1 and
+                isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
+                isinstance(node.comparators[0], ast.Num)
+        ):
+            self.errors.append((
+                node.lineno, node.col_offset, YTT203,
+            ))
+        elif (
+                self._is_sys('version_info', node.left.value) and
+                isinstance(node.left, ast.Attribute) and
+                node.left.attr == 'minor' and
+                len(node.ops) == 1 and
+                isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
+                isinstance(node.comparators[0], ast.Num)
+        ):
+            self.errors.append((
+                node.lineno, node.col_offset, YTT204,
             ))
         self.generic_visit(node)
 
