@@ -27,6 +27,7 @@ you might also find an early build of [python3.10] useful
 | YTT201 | `sys.version_info[0] == 3` referenced (python4) |
 | YTT202 | `six.PY3` referenced (python4)                  |
 | YTT301 | `sys.version[0]` referenced (python10)          |
+| YTT302 | `sys.version` compared to string (python10)     |
 
 ## rationale
 
