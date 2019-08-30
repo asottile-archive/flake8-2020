@@ -21,7 +21,7 @@ you might also find an early build of [python3.10] useful
 
 | Code   | Description                                            |
 |--------|--------------------------------------------------------|
-| YTT101 | `sys.version[:...]` referenced (python3.10)            |
+| YTT101 | `sys.version[:3]` referenced (python3.10)              |
 | YTT102 | `sys.version[2]` referenced (python3.10)               |
 | YTT103 | `sys.version` compared to string (python3.10)          |
 | YTT201 | `sys.version_info[0] == 3` referenced (python4)        |
@@ -30,6 +30,7 @@ you might also find an early build of [python3.10] useful
 | YTT204 | `sys.version_info.minor` compared to integer (python4) |
 | YTT301 | `sys.version[0]` referenced (python10)                 |
 | YTT302 | `sys.version` compared to string (python10)            |
+| YTT303 | `sys.version[:1]` referenced (python10)                |
 
 ## rationale
 
@@ -86,9 +87,16 @@ python_major_version = sys.version[0]  # YTT301
 # in python10 this will be False
 if sys.version >= '3':  # YTT302
     print('python3!')
+# in python10 this will be False
+if sys.version[:1] >= '3':  # YTT303
+    print('python3!')
+
 
 # correct way to do this
 python_major_version = str(sys.version_info[0])
+
+if sys.version_info >= (3,):
+    print('python3!')
 
 if sys.version_info >= (3,):
     print('python3!')
