@@ -18,6 +18,8 @@ def results(s):
         'PY3 = sys.version_info[0] >= 3',
         # ignore from imports with aliases, patches welcome
         'from sys import version as v\nprint(v[:3])',
+        # the tool is timid and only flags certain numeric slices
+        'import sys\nprint(sys.version[:i])',
     ),
 )
 def test_ok(s):
@@ -33,7 +35,7 @@ def test_ok(s):
 )
 def test_py310_slicing_of_sys_version_string(s):
     assert results(s) == {
-        '2:6: YTT101 `sys.version[:...]` referenced (python3.10), use '
+        '2:6: YTT101 `sys.version[:3]` referenced (python3.10), use '
         '`sys.version_info`',
     }
 
@@ -128,6 +130,20 @@ def test_py4_usage_of_six_py3(s):
 def test_py10_indexing_of_sys_version_string(s):
     assert results(s) == {
         '2:11: YTT301 `sys.version[0]` referenced (python10), use '
+        '`sys.version_info`',
+    }
+
+
+@pytest.mark.parametrize(
+    's',
+    (
+        'import sys\nprint(sys.version[:1])',
+        'from sys import version\nprint(version[:1])',
+    ),
+)
+def test_py10_slicing_of_sys_version_string(s):
+    assert results(s) == {
+        '2:6: YTT303 `sys.version[:1]` referenced (python10), use '
         '`sys.version_info`',
     }
 

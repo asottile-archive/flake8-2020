@@ -8,7 +8,7 @@ from typing import Type
 
 import importlib_metadata
 
-YTT101 = 'YTT101 `sys.version[:...]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
+YTT101 = 'YTT101 `sys.version[:3]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT102 = 'YTT102 `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT103 = 'YTT103 `sys.version` compared to string (python3.10), use `sys.version_info`'  # noqa: E501
 YTT201 = 'YTT201 `sys.version_info[0] == 3` referenced (python4), use `>=`'
@@ -17,6 +17,7 @@ YTT203 = 'YTT203 `sys.version_info[1]` compared to integer (python4), compare `s
 YTT204 = 'YTT204 `sys.version_info.minor` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
 YTT301 = 'YTT301 `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
 YTT302 = 'YTT302 `sys.version` compared to string (python10), use `sys.version_info`'  # noqa: E501
+YTT303 = 'YTT303 `sys.version[:1]` referenced (python10), use `sys.version_info`'  # noqa: E501
 
 
 class Visitor(ast.NodeVisitor):
@@ -43,11 +44,22 @@ class Visitor(ast.NodeVisitor):
             self._from_imports.get(node.id) == 'sys'
         )
 
+    def _is_sys_version_upper_slice(self, node: ast.Subscript, n: int) -> bool:
+        return (
+            self._is_sys('version', node.value) and
+            isinstance(node.slice, ast.Slice) and
+            node.slice.lower is None and
+            isinstance(node.slice.upper, ast.Num) and
+            node.slice.upper.n == n and
+            node.slice.step is None
+        )
+
     def visit_Subscript(self, node: ast.Subscript) -> None:
-        if (
-                self._is_sys('version', node.value) and
-                isinstance(node.slice, ast.Slice)
-        ):
+        if self._is_sys_version_upper_slice(node, 1):
+            self.errors.append((
+                node.value.lineno, node.value.col_offset, YTT303,
+            ))
+        elif self._is_sys_version_upper_slice(node, 3):
             self.errors.append((
                 node.value.lineno, node.value.col_offset, YTT101,
             ))
