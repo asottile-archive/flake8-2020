@@ -1,4 +1,5 @@
 import ast
+import sys
 from typing import Any
 from typing import Dict
 from typing import Generator
@@ -6,7 +7,10 @@ from typing import List
 from typing import Tuple
 from typing import Type
 
-import importlib_metadata
+if sys.version_info < (3, 8):  # pragma: no cover (<PY38)
+    import importlib_metadata
+else:  # pragma: no cover (PY38+)
+    import importlib.metadata as importlib_metadata
 
 YTT101 = 'YTT101 `sys.version[:3]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT102 = 'YTT102 `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
