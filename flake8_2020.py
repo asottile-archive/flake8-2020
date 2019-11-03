@@ -19,6 +19,7 @@ YTT201 = 'YTT201 `sys.version_info[0] == 3` referenced (python4), use `>=`'
 YTT202 = 'YTT202 `six.PY3` referenced (python4), use `not six.PY2`'
 YTT203 = 'YTT203 `sys.version_info[1]` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
 YTT204 = 'YTT204 `sys.version_info.minor` compared to integer (python4), compare `sys.version_info` to tuple'  # noqa: E501
+YTT205 = 'YTT205 `sys.version_info[0] != 3` referenced (python4), use `== 2`'
 YTT301 = 'YTT301 `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
 YTT302 = 'YTT302 `sys.version` compared to string (python10), use `sys.version_info`'  # noqa: E501
 YTT303 = 'YTT303 `sys.version[:1]` referenced (python10), use `sys.version_info`'  # noqa: E501
@@ -102,6 +103,20 @@ class Visitor(ast.NodeVisitor):
         ):
             self.errors.append((
                 node.left.lineno, node.left.col_offset, YTT201,
+            ))
+        elif (
+                isinstance(node.left, ast.Subscript) and
+                self._is_sys('version_info', node.left.value) and
+                isinstance(node.left.slice, ast.Index) and
+                isinstance(node.left.slice.value, ast.Num) and
+                node.left.slice.value.n == 0 and
+                len(node.ops) == 1 and
+                isinstance(node.ops[0], ast.NotEq) and
+                isinstance(node.comparators[0], ast.Num) and
+                node.comparators[0].n == 3
+        ):
+            self.errors.append((
+                node.left.lineno, node.left.col_offset, YTT205,
             ))
         elif (
                 self._is_sys('version', node.left) and

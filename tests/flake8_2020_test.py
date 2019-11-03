@@ -105,6 +105,20 @@ def test_py4_comparison_to_version_3(s):
 @pytest.mark.parametrize(
     's',
     (
+        'import sys\nsys.version_info[0] != 3',
+        'from sys import version_info\nversion_info[0] != 3',
+    ),
+)
+def test_py4_ne_comparison_to_version_3(s):
+    assert results(s) == {
+        '2:0: YTT205 `sys.version_info[0] != 3` referenced (python4), use '
+        '`== 2`',
+    }
+
+
+@pytest.mark.parametrize(
+    's',
+    (
         'import six\n'
         'if six.PY3:\n'
         '    print("3")\n',
