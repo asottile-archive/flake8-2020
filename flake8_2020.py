@@ -97,26 +97,16 @@ class Visitor(ast.NodeVisitor):
                 isinstance(node.left.slice.value, ast.Num) and
                 node.left.slice.value.n == 0 and
                 len(node.ops) == 1 and
-                isinstance(node.ops[0], ast.Eq) and
+                isinstance(node.ops[0], (ast.Eq, ast.NotEq)) and
                 isinstance(node.comparators[0], ast.Num) and
                 node.comparators[0].n == 3
         ):
+            if isinstance(node.ops[0], ast.Eq):
+                code = YTT201
+            else:
+                code = YTT205
             self.errors.append((
-                node.left.lineno, node.left.col_offset, YTT201,
-            ))
-        elif (
-                isinstance(node.left, ast.Subscript) and
-                self._is_sys('version_info', node.left.value) and
-                isinstance(node.left.slice, ast.Index) and
-                isinstance(node.left.slice.value, ast.Num) and
-                node.left.slice.value.n == 0 and
-                len(node.ops) == 1 and
-                isinstance(node.ops[0], ast.NotEq) and
-                isinstance(node.comparators[0], ast.Num) and
-                node.comparators[0].n == 3
-        ):
-            self.errors.append((
-                node.left.lineno, node.left.col_offset, YTT205,
+                node.left.lineno, node.left.col_offset, code,
             ))
         elif (
                 self._is_sys('version', node.left) and
