@@ -96,7 +96,7 @@ class Visitor(ast.NodeVisitor):
                 isinstance(node.left.slice.value, ast.Num) and
                 node.left.slice.value.n == 0 and
                 len(node.ops) == 1 and
-                isinstance(node.ops[0], ast.Eq) and
+                isinstance(node.ops[0], (ast.Eq, ast.NotEq)) and
                 isinstance(node.comparators[0], ast.Num) and
                 node.comparators[0].n == 3
         ):

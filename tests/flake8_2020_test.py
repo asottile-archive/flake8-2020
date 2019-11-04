@@ -93,6 +93,8 @@ def test_py310_string_comparison_of_1_char(s):
     (
         'import sys\nPY3 = sys.version_info[0] == 3',
         'from sys import version_info\nPY3 = version_info[0] == 3',
+        'import sys\nPY2 = sys.version_info[0] != 3',
+        'from sys import version_info\nPY2 = version_info[0] != 3',
     ),
 )
 def test_py4_comparison_to_version_3(s):
