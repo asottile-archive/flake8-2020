@@ -7,8 +7,7 @@ flake8-2020
 
 flake8 plugin which checks for misuse of `sys.version` or `sys.version_info`
 
-this will become a problem when `python3.10` or `python4.0` exists (presumably
-during the year 2020).
+This becomes a problem with Python 3.10, final release 2021-10-04.
 
 you might also find an early build of [python3.10] useful
 
