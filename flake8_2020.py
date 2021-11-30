@@ -7,10 +7,10 @@ from typing import List
 from typing import Tuple
 from typing import Type
 
-if sys.version_info < (3, 8):  # pragma: no cover (<PY38)
-    import importlib_metadata
-else:  # pragma: no cover (PY38+)
+if sys.version_info >= (3, 8):  # pragma: >=3.8 cover
     import importlib.metadata as importlib_metadata
+else:  # pragma: <3.8 cover
+    import importlib_metadata
 
 YTT101 = 'YTT101 `sys.version[:3]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT102 = 'YTT102 `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
@@ -22,6 +22,17 @@ YTT204 = 'YTT204 `sys.version_info.minor` compared to integer (python4), compare
 YTT301 = 'YTT301 `sys.version[0]` referenced (python10), use `sys.version_info`'  # noqa: E501
 YTT302 = 'YTT302 `sys.version` compared to string (python10), use `sys.version_info`'  # noqa: E501
 YTT303 = 'YTT303 `sys.version[:1]` referenced (python10), use `sys.version_info`'  # noqa: E501
+
+
+def _is_index(node: ast.Subscript, n: int) -> bool:
+    if sys.version_info >= (3, 9):  # pragma: >=3.9 cover
+        node_slice = node.slice
+    elif isinstance(node.slice, ast.Index):  # pragma: <3.9 cover
+        node_slice = node.slice.value
+    else:  # pragma: <3.9 cover
+        return False
+
+    return isinstance(node_slice, ast.Num) and node_slice.n == n
 
 
 class Visitor(ast.NodeVisitor):
@@ -67,21 +78,11 @@ class Visitor(ast.NodeVisitor):
             self.errors.append((
                 node.value.lineno, node.value.col_offset, YTT101,
             ))
-        elif (
-                self._is_sys('version', node.value) and
-                isinstance(node.slice, ast.Index) and
-                isinstance(node.slice.value, ast.Num) and
-                node.slice.value.n == 2
-        ):
+        elif self._is_sys('version', node.value) and _is_index(node, n=2):
             self.errors.append((
                 node.value.lineno, node.value.col_offset, YTT102,
             ))
-        elif (
-                self._is_sys('version', node.value) and
-                isinstance(node.slice, ast.Index) and
-                isinstance(node.slice.value, ast.Num) and
-                node.slice.value.n == 0
-        ):
+        elif self._is_sys('version', node.value) and _is_index(node, n=0):
             self.errors.append((
                 node.value.lineno, node.value.col_offset, YTT301,
             ))
@@ -92,9 +93,7 @@ class Visitor(ast.NodeVisitor):
         if (
                 isinstance(node.left, ast.Subscript) and
                 self._is_sys('version_info', node.left.value) and
-                isinstance(node.left.slice, ast.Index) and
-                isinstance(node.left.slice.value, ast.Num) and
-                node.left.slice.value.n == 0 and
+                _is_index(node.left, n=0) and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Eq, ast.NotEq)) and
                 isinstance(node.comparators[0], ast.Num) and
@@ -119,9 +118,7 @@ class Visitor(ast.NodeVisitor):
         elif (
                 isinstance(node.left, ast.Subscript) and
                 self._is_sys('version_info', node.left.value) and
-                isinstance(node.left.slice, ast.Index) and
-                isinstance(node.left.slice.value, ast.Num) and
-                node.left.slice.value.n == 1 and
+                _is_index(node.left, n=1) and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
                 isinstance(node.comparators[0], ast.Num)
