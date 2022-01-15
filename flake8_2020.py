@@ -1,11 +1,9 @@
+from __future__ import annotations
+
 import ast
 import sys
 from typing import Any
-from typing import Dict
 from typing import Generator
-from typing import List
-from typing import Tuple
-from typing import Type
 
 if sys.version_info >= (3, 8):  # pragma: >=3.8 cover
     import importlib.metadata as importlib_metadata
@@ -37,8 +35,8 @@ def _is_index(node: ast.Subscript, n: int) -> bool:
 
 class Visitor(ast.NodeVisitor):
     def __init__(self) -> None:
-        self.errors: List[Tuple[int, int, str]] = []
-        self._from_imports: Dict[str, str] = {}
+        self.errors: list[tuple[int, int, str]] = []
+        self._from_imports: dict[str, str] = {}
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
         for alias in node.names:
@@ -161,7 +159,7 @@ class Plugin:
     def __init__(self, tree: ast.AST):
         self._tree = tree
 
-    def run(self) -> Generator[Tuple[int, int, str, Type[Any]], None, None]:
+    def run(self) -> Generator[tuple[int, int, str, type[Any]], None, None]:
         visitor = Visitor()
         visitor.visit(self._tree)
 
