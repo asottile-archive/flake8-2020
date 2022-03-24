@@ -1,6 +1,6 @@
-[![Build Status](https://dev.azure.com/asottile/asottile/_apis/build/status/asottile.flake8-2020?branchName=master)](https://dev.azure.com/asottile/asottile/_build/latest?definitionId=27&branchName=master)
-[![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/asottile/asottile/27/master.svg)](https://dev.azure.com/asottile/asottile/_build/latest?definitionId=27&branchName=master)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/asottile/flake8-2020/master.svg)](https://results.pre-commit.ci/latest/github/asottile/flake8-2020/master)
+[![Build Status](https://dev.azure.com/asottile/asottile/_apis/build/status/asottile.flake8-2020?branchName=main)](https://dev.azure.com/asottile/asottile/_build/latest?definitionId=27&branchName=main)
+[![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/asottile/asottile/27/main.svg)](https://dev.azure.com/asottile/asottile/_build/latest?definitionId=27&branchName=main)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/asottile/flake8-2020/main.svg)](https://results.pre-commit.ci/latest/github/asottile/flake8-2020/main)
 
 flake8-2020
 ===========
