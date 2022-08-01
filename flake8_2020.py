@@ -5,11 +5,6 @@ import sys
 from typing import Any
 from typing import Generator
 
-if sys.version_info >= (3, 8):  # pragma: >=3.8 cover
-    import importlib.metadata as importlib_metadata
-else:  # pragma: <3.8 cover
-    import importlib_metadata
-
 YTT101 = 'YTT101 `sys.version[:3]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT102 = 'YTT102 `sys.version[2]` referenced (python3.10), use `sys.version_info`'  # noqa: E501
 YTT103 = 'YTT103 `sys.version` compared to string (python3.10), use `sys.version_info`'  # noqa: E501
@@ -153,9 +148,6 @@ class Visitor(ast.NodeVisitor):
 
 
 class Plugin:
-    name = __name__
-    version = importlib_metadata.version(__name__)
-
     def __init__(self, tree: ast.AST):
         self._tree = tree
 
