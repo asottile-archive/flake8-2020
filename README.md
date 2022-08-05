@@ -16,7 +16,9 @@ you might also find an early build of [python3.10] useful
 
 ## installation
 
-`pip install flake8-2020`
+```bash
+pip install flake8-2020
+```
 
 ## flake8 codes
 
