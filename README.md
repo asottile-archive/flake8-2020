@@ -100,9 +100,6 @@ python_major_version = str(sys.version_info[0])
 
 if sys.version_info >= (3,):
     print('python3!')
-
-if sys.version_info >= (3,):
-    print('python3!')
 ```
 
 ## as a pre-commit hook
