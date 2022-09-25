@@ -84,6 +84,9 @@ if sys.version_info >= (3, 6):
     print('py36+')
 ```
 
+We continue with
+there are N wrong examples and then N replacements for those N wrong examples.
+
 ```python
 # in python10 this will report as '1'
 python_major_version = sys.version[0]  # YTT301
