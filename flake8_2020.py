@@ -25,7 +25,7 @@ def _is_index(node: ast.Subscript, n: int) -> bool:
     else:  # pragma: <3.9 cover
         return False
 
-    return isinstance(node_slice, ast.Num) and node_slice.n == n
+    return isinstance(node_slice, ast.Constant) and node_slice.value == n
 
 
 class Visitor(ast.NodeVisitor):
@@ -57,8 +57,8 @@ class Visitor(ast.NodeVisitor):
             self._is_sys('version', node.value) and
             isinstance(node.slice, ast.Slice) and
             node.slice.lower is None and
-            isinstance(node.slice.upper, ast.Num) and
-            node.slice.upper.n == n and
+            isinstance(node.slice.upper, ast.Constant) and
+            node.slice.upper.value == n and
             node.slice.step is None
         )
 
@@ -89,8 +89,8 @@ class Visitor(ast.NodeVisitor):
                 _is_index(node.left, n=0) and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Eq, ast.NotEq)) and
-                isinstance(node.comparators[0], ast.Num) and
-                node.comparators[0].n == 3
+                isinstance(node.comparators[0], ast.Constant) and
+                node.comparators[0].value == 3
         ):
             self.errors.append((
                 node.left.lineno, node.left.col_offset, YTT201,
@@ -114,7 +114,8 @@ class Visitor(ast.NodeVisitor):
                 _is_index(node.left, n=1) and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
-                isinstance(node.comparators[0], ast.Num)
+                isinstance(node.comparators[0], ast.Constant) and
+                isinstance(node.comparators[0].value, (int, float))
         ):
             self.errors.append((
                 node.lineno, node.col_offset, YTT203,
@@ -125,7 +126,8 @@ class Visitor(ast.NodeVisitor):
                 node.left.attr == 'minor' and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
-                isinstance(node.comparators[0], ast.Num)
+                isinstance(node.comparators[0], ast.Constant) and
+                isinstance(node.comparators[0].value, (int, float))
         ):
             self.errors.append((
                 node.lineno, node.col_offset, YTT204,
