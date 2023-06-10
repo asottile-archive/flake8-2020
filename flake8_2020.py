@@ -99,9 +99,10 @@ class Visitor(ast.NodeVisitor):
                 self._is_sys('version', node.left) and
                 len(node.ops) == 1 and
                 isinstance(node.ops[0], (ast.Lt, ast.LtE, ast.Gt, ast.GtE)) and
-                isinstance(node.comparators[0], ast.Str)
+                isinstance(node.comparators[0], ast.Constant) and
+                isinstance(node.comparators[0].value, str)
         ):
-            if len(node.comparators[0].s) == 1:
+            if len(node.comparators[0].value) == 1:
                 code = YTT302
             else:
                 code = YTT103
