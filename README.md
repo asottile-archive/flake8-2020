@@ -1,3 +1,9 @@
+# ARCHIVED
+
+3.10 is old news now and I don't plan on updating it further
+
+___
+
 [![build status](https://github.com/asottile/flake8-2020/actions/workflows/main.yml/badge.svg)](https://github.com/asottile/flake8-2020/actions/workflows/main.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/asottile/flake8-2020/main.svg)](https://results.pre-commit.ci/latest/github/asottile/flake8-2020/main)
 
